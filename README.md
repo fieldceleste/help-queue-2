@@ -1,3 +1,12 @@
+# **Epicodus Help Queue**
+
+#### Author: **Celeste Field**
+#### June 29, 2020
+
+### Description
+
+_This application serves as an introduction to React with create-react-app, components, JSX, and props while building a static site. This help queue displays a list of tickets and a header header._
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
