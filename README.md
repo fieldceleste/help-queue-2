@@ -5,9 +5,11 @@
 
 ### Description
 
-_This application serves as an introduction to React with create-react-app, components, JSX, and props while building a static site. This help queue displays a list of tickets and a header header._
+_This application is a replica of Epicodus help queue. It is a demonstration of our ability to use Firestone and Jsx in a React application.The user should be able to add a new ticket, remove one, and replace the current._
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/fieldceleste/help-queue.git).
+
+
 
 ## Available Scripts
 
