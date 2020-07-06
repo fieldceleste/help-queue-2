@@ -4,6 +4,7 @@ import TicketList from './TicketList';
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
+import PropTypes from "prop-types";
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -13,7 +14,6 @@ class TicketControl extends React.Component {
       selectedTicket: null,
       editing: false
     };
-    this.handleClick = this.handleClick.bind(this); 
   }
 
   // for adding new ticket
@@ -34,11 +34,11 @@ class TicketControl extends React.Component {
 
     //for updating
     handleChangingSelectedTicket = (id) => {
-      const selectedTicket = this.state.masterTicketList.filter(ticket => ticket.id === id)[0];
-      this.setState({
-        selectedTicket: selectedTicket
+      const selectedTicket = this.props.masterTicketList[id];
+      this.setState({selectedTicket: selectedTicket
       });
     }
+
     // for deleting
     handleDeletingTicket = (id) => {
       const { dispatch } = this.props;
@@ -116,7 +116,7 @@ class TicketControl extends React.Component {
     } else {
       currentlyVisibleState = 
       <TicketList 
-      ticketList={this.state.masterTicketList}
+      ticketList={this.props.masterTicketList}
       onTicketSelection={this.handleChangingSelectedTicket} />; 
     buttonText = "Add Ticket"; 
     }
@@ -128,11 +128,17 @@ class TicketControl extends React.Component {
     );
   }
 }
+TicketControl.propTypes = {
+  masterTicketList: PropTypes.object
+};
+
 const mapStateToProps = state => {
   return {
     masterTicketList: state
+  
   }
 }
+
 TicketControl = connect(mapStateToProps)(TicketControl);
 
 export default TicketControl;
