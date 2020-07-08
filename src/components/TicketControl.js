@@ -57,10 +57,10 @@ class TicketControl extends React.Component {
     // for deleting
     handleDeletingTicket = (id) => {
       const { dispatch } = this.props;
-      const action = {
+      const deleteTicket = ({
         type: 'DELETE_TICKET',
-        id: id
-      }
+        id
+      })
       dispatch(action);
       this.setState({selectedTicket: null
       });
@@ -90,7 +90,6 @@ class TicketControl extends React.Component {
     }
   
     
-
   render(){
     let currentlyVisibleState = null;
     let buttonText = null; // new code
@@ -121,7 +120,7 @@ class TicketControl extends React.Component {
       <TicketList 
       ticketList={this.props.masterTicketList}
       onTicketSelection={this.handleChangingSelectedTicket} />; 
-    buttonText = "Add Ticket"; 
+      buttonText = "Add Ticket"; 
     }
     return (
       <React.Fragment>
