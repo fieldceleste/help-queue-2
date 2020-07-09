@@ -19,6 +19,8 @@ export default (state = {}, action) => {
           location: location,
           issue: issue,
           id: id,
+          timeOpen: timeOpen,
+          formattedWaitTime: formattedWaitTime
         },
       });
 
