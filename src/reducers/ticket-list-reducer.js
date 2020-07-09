@@ -1,12 +1,14 @@
+import * as c from './../actions/ActionTypes';
+
 export default (state = {}, action) => {
   //switch is simplified syntax for conditional statement
 
   //ES6 object destructuring syntax to get other properties from the action object
-  const { names, location, issue, id } = action;
+  const { names, location, issue, id, formattedWaitTime, timeOpen } = action;
 
   //switch is dependent on action type
   switch (action.type) {
-    case "ADD_TICKET":
+    case c.ADD_TICKET:
       //Object.assign to clone the state object and return and altered copy
       //first argument is an empty object, otherwise it would mutate the state directly
       // second argument, the object that will actually be cloned - this case the ticket list state (which is empty above)
@@ -20,13 +22,19 @@ export default (state = {}, action) => {
         },
       });
 
-    case "DELETE_TICKET":
+    case c.DELETE_TICKET:
       const newState = { ...state };
       //this is not entirely pure functionality here
       //we are directly altering the state being called on with delete. Keeping it simple for these lessons
       delete newState[id];
       return newState;
 
+      case c.UPDATE_TIME:
+        const newTicket = Object.assign({}, state[id], {formattedWaitTime});
+        const updatedState = Object.assign({}, state, {
+          [id]: newTicket
+        });
+        return updatedState;
     default:
       return state;
   }

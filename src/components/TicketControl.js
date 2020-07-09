@@ -5,6 +5,7 @@ import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
+import * as a from './../actions';  //a = actions 
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -15,37 +16,44 @@ class TicketControl extends React.Component {
       editing: false
     };
   }
+
+  componentDidMount() {
+    this.waitTimeUpdateTimer = setInterval(() =>
+      this.updateTicketElapsedWaitTime(),
+    6000
+    );
+  }
+
+  componentWillUnmount(){
+    console.log("component unmounted!");
+    clearInterval(this.waitTimeUpdateTimer);
+  }
+
+  updateTicketElapsedWaitTime = () => {
+    console.log("tick");
+  }
+
   handleClick = () => {
     if (this.state.selectedTicket != null) {
       this.setState({
         selectedTicket: null,
         editing: false
       });
+    } else {
       const { dispatch } = this.props;
-      const action = {
-        type: 'TOGGLE_FORM'
-      }
+      const action = a.toggleForm();
       dispatch(action);
     }
   }
 
   // for adding new ticket
   handleAddingNewTicketToList = (newTicket) => {
-  const { dispatch } = this.props;
-  const { id, names, location, issue } = newTicket;
-  const action = {
-    type: 'ADD_TICKET',
-    id: id,
-    names: names,
-    location: location,
-    issue: issue,
+    const { dispatch } = this.props;
+    const action = a.addTicket(newTicket);
+    dispatch(action);
+    const action2 = a.toggleForm();
+    dispatch(action2);
   }
-  dispatch(action);
-  const action2 = {
-    type: 'TOGGLE_FORM'
-  }
-  dispatch(action2);
-}
 
     //for updating
     handleChangingSelectedTicket = (id) => {
@@ -57,13 +65,9 @@ class TicketControl extends React.Component {
     // for deleting
     handleDeletingTicket = (id) => {
       const { dispatch } = this.props;
-      const deleteTicket = ({
-        type: 'DELETE_TICKET',
-        id
-      })
+      const action = a.deleteTicket(id);
       dispatch(action);
-      this.setState({selectedTicket: null
-      });
+      this.setState({selectedTicket: null});
     }
 
     // for editing
@@ -73,21 +77,14 @@ class TicketControl extends React.Component {
 
     // for editing ticket in list
     handleEditingTicketInList = (ticketToEdit) => {
-      const { dispatch } = this.props;
-      const { id, names, location, issue } = ticketToEdit;
-      const action = {
-        type: 'ADD_TICKET',
-        id: id,
-        names: names,
-        location: location,
-        issue: issue,
-      }
-      dispatch(action);
-      this.setState({
-        editing: false,
-        selectedTicket: null
-      });
-    }
+    const { dispatch } = this.props;
+    const action = a.addTicket(ticketToEdit);
+    dispatch(action);
+    this.setState({
+      editing: false,
+      selectedTicket: null
+    });
+  }
   
     
   render(){

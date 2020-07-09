@@ -1,5 +1,8 @@
 import ticketListReducer from "../../reducers/ticket-list-reducer";
+import * as c from "../../actions/ActionTypes";  //c=constants
+import Moment from "moment";
 
+describe("ticketListReducer", () => {
 let action;
 //declare an action but don't define it. Each test will define what the action should be
 const ticketData = {
@@ -7,6 +10,7 @@ const ticketData = {
   location: "4b",
   issue: "Redux action is not working correctly.",
   id: 1,
+  timeOpen : 0
 };
 
 //to demonstrate that if a key of an object already exists, it will update.
@@ -16,6 +20,7 @@ const updatedTicketData = {
   issue: "Now everything is broken!!!!!!!!!!",
   id: 1,
 };
+
 
 //to test if correct ticket is being deleted
 const currentState = {
@@ -32,8 +37,24 @@ const currentState = {
     id: 2,
   },
 };
-
-describe("ticketListReducer", () => {
+test('Should add a formatted wait time to ticket entry', () => {
+  const { names, location, issue, timeOpen, id } = ticketData;
+  action = {
+    type: c.UPDATE_TIME,
+    formattedWaitTime: '4 minutes',
+    id: id
+  };
+  expect(ticketListReducer({ [id] : ticketData }, action)).toEqual({
+    [id] : {
+      names: names,
+      location: location,
+      issue: issue,
+      timeOpen: timeOpen,
+      id: id,
+      formattedWaitTime: '4 minutes'
+    }
+  });
+});
   test("Should successfully add new ticket data to masterTicketList", () => {
     const { names, location, issue, id } = ticketData;
     action = {
@@ -93,3 +114,4 @@ describe("ticketListReducer", () => {
     expect(ticketListReducer({}, { type: null })).toEqual({});
   });
 });
+
