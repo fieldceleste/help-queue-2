@@ -14,12 +14,13 @@ function TicketList(props) { // Add props as parameter.
       <hr />
       {Object.values(props.ticketList).map((ticket) => {// Loop through the list passed down from TicketControl.
         return <Ticket 
-          whenTicketClicked = { props.onTicketSelection }
-          names={ticket.names}
-          location={ticket.location}
-          issue={ticket.issue}
-          id={ticket.id}
-          key={ticket.id} />
+        whenTicketClicked = { props.onTicketSelection }
+        names={ticket.names}
+        location={ticket.location}
+        issue={ticket.issue}
+        formattedWaitTime={ticket.formattedWaitTime}
+        id={ticket.id}
+        key={ticket.id}/>
        })}
       </div>
     </React.Fragment>
