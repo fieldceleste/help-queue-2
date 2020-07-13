@@ -1,6 +1,6 @@
 import ticketListReducer from "../../reducers/ticket-list-reducer";
 import * as c from "../../actions/ActionTypes";  //c=constants
-import Moment from "moment";
+// import Moment from "moment";
 
 describe("ticketListReducer", () => {
 let action;
@@ -38,28 +38,28 @@ const currentState = {
   },
 };
 
-test('should successfully add a ticket to the ticket list that includes Moment-formatted wait times', () => {
-  const { names, location, issue, timeOpen, id } = ticketData;
-  action = {
-    type: 'ADD_TICKET',
-    names: names,
-    location: location,
-    issue: issue,
-    timeOpen: timeOpen,
-    id: id,
-    formattedWaitTime: new Moment().fromNow(true)
-  };
-  expect(ticketListReducer({}, action)).toEqual({
-    [id] : {
-      names: names,
-      location: location,
-      issue: issue,
-      timeOpen: timeOpen,
-      id: id,
-      formattedWaitTime: 'a few seconds'
-    }
-  });
-});
+// test('should successfully add a ticket to the ticket list that includes Moment-formatted wait times', () => {
+//   const { names, location, issue, timeOpen, id } = ticketData;
+//   action = {
+//     type: 'ADD_TICKET',
+//     names: names,
+//     location: location,
+//     issue: issue,
+//     timeOpen: timeOpen,
+//     id: id,
+//     formattedWaitTime: new Moment().fromNow(true)
+//   };
+//   expect(ticketListReducer({}, action)).toEqual({
+//     [id] : {
+//       names: names,
+//       location: location,
+//       issue: issue,
+//       timeOpen: timeOpen,
+//       id: id,
+//       formattedWaitTime: 'a few seconds'
+//     }
+//   });
+// });
 
 test('Should add a formatted wait time to ticket entry', () => {
   const { names, location, issue, timeOpen, id } = ticketData;
@@ -79,45 +79,45 @@ test('Should add a formatted wait time to ticket entry', () => {
     }
   });
 });
-  test("Should successfully add new ticket data to masterTicketList", () => {
-    const { names, location, issue, id } = ticketData;
-    action = {
-      type: "ADD_TICKET",
-      names: names,
-      location: location,
-      issue: issue,
-      id: id,
-    };
+  // test("Should successfully add new ticket data to masterTicketList", () => {
+  //   const { names, location, issue, id } = ticketData;
+  //   action = {
+  //     type: "ADD_TICKET",
+  //     names: names,
+  //     location: location,
+  //     issue: issue,
+  //     id: id,
+  //   };
 
-    expect(ticketListReducer({}, action)).toEqual({
-      1: {
-        names: names,
-        location: location,
-        issue: issue,
-        id: id,
-      },
-    });
-  });
+  //   expect(ticketListReducer({}, action)).toEqual({
+  //     1: {
+  //       names: names,
+  //       location: location,
+  //       issue: issue,
+  //       id: id,
+  //     },
+  //   });
+  // });
 
-  test("Should update ticket data if key already exists using the same ADD_TICKET Reducer", () => {
-    const { names, location, issue, id } = updatedTicketData;
-    action = {
-      type: "ADD_TICKET",
-      names: names,
-      location: location,
-      issue: issue,
-      id: id,
-    };
+  // test("Should update ticket data if key already exists using the same ADD_TICKET Reducer", () => {
+  //   const { names, location, issue, id } = updatedTicketData;
+  //   action = {
+  //     type: "ADD_TICKET",
+  //     names: names,
+  //     location: location,
+  //     issue: issue,
+  //     id: id,
+  //   };
 
-    expect(ticketListReducer({}, action)).toEqual({
-      [id]: {
-        names: names,
-        location: location,
-        issue: issue,
-        id: id,
-      },
-    });
-  });
+  //   expect(ticketListReducer({}, action)).toEqual({
+  //     [id]: {
+  //       names: names,
+  //       location: location,
+  //       issue: issue,
+  //       id: id,
+  //     },
+  //   });
+  // });
 
   test("Should successfully delete a ticket", () => {
       action = {

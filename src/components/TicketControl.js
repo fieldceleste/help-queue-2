@@ -6,12 +6,12 @@ import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
 import PropTypes from "prop-types";
 import * as a from './../actions';  //a = actions 
+import { withFirestore } from 'react-redux-firebase'
 
 class TicketControl extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // formVisibleOnPage: false,
       selectedTicket: null,
       editing: false
     };
@@ -52,26 +52,28 @@ class TicketControl extends React.Component {
   }
 
   // for adding new ticket
-  handleAddingNewTicketToList = (newTicket) => {
+  handleAddingNewTicketToList = () => {
     const { dispatch } = this.props;
-    const action = a.addTicket(newTicket);
+    const action = a.toggleForm();
     dispatch(action);
-    const action2 = a.toggleForm();
-    dispatch(action2);
   }
 
     //for updating
     handleChangingSelectedTicket = (id) => {
-      const selectedTicket = this.props.masterTicketList[id];
-      this.setState({selectedTicket: selectedTicket
+      this.props.firestore.get({collection: 'tickets', doc: id}).then((ticket) => {
+        const firestoreTicket = {
+          names: ticket.get("names"),
+          location: ticket.get("location"),
+          issue: ticket.get("issue"),
+          id: ticket.id
+        }
+        this.setState({selectedTicket: firestoreTicket });
       });
     }
 
     // for deleting
     handleDeletingTicket = (id) => {
-      const { dispatch } = this.props;
-      const action = a.deleteTicket(id);
-      dispatch(action);
+      this.props.firestore.delete({collection: 'tickets', doc: id});
       this.setState({selectedTicket: null});
     }
 
@@ -80,16 +82,12 @@ class TicketControl extends React.Component {
       this.setState({editing: true});
     }
 
-    // for editing ticket in list
-    handleEditingTicketInList = (ticketToEdit) => {
-    const { dispatch } = this.props;
-    const action = a.addTicket(ticketToEdit);
-    dispatch(action);
-    this.setState({
-      editing: false,
-      selectedTicket: null
-    });
-  }
+    handleEditingTicketInList = () => {
+      this.setState({ 
+        editing: false,
+        selectedTicket: null
+      });
+    }
   
     
   render(){
@@ -101,7 +99,7 @@ class TicketControl extends React.Component {
       <EditTicketForm 
       ticket = {this.state.selectedTicket} 
       onEditTicket= {this.handleEditingTicketInList} />
-    buttonText = "Return to Ticket List";
+      buttonText = "Return to Ticket List";
     }
     else if(this.state.selectedTicket != null) {
       currentlyVisibleState = 
@@ -145,4 +143,5 @@ const mapStateToProps = state => {
 
 TicketControl = connect(mapStateToProps)(TicketControl);
 
-export default TicketControl;
+
+export default withFirestore(TicketControl);
