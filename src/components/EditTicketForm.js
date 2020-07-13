@@ -7,6 +7,7 @@ import { useFirestore } from 'react-redux-firebase';
 
 function EditTicketForm (props) {
   const firestore = useFirestore();
+  const { ticket } = props;
 
   function handleEditTicketFormSubmission(event) {
     event.preventDefault();
@@ -29,6 +30,5 @@ function EditTicketForm (props) {
 }
 EditTicketForm.propTypes = {
   onEditTicket: PropTypes.func
-}
- 
+};
 export default EditTicketForm;

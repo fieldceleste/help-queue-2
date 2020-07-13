@@ -4,9 +4,9 @@ import TicketList from './TicketList';
 import TicketDetail from './TicketDetail';
 import EditTicketForm from './EditTicketForm';
 import { connect } from 'react-redux';
-import PropTypes from "prop-types";
+// import PropTypes from "prop-types";
 import * as a from './../actions';  //a = actions 
-import { withFirestore } from 'react-redux-firebase'
+import { withFirestore } from 'react-redux-firebase';
 
 class TicketControl extends React.Component {
   constructor(props) {
@@ -15,27 +15,6 @@ class TicketControl extends React.Component {
       selectedTicket: null,
       editing: false
     };
-  }
-
-  componentDidMount() {
-    this.waitTimeUpdateTimer = setInterval(() =>
-      this.updateTicketElapsedWaitTime(),
-    6000
-    );
-  }
-
-  componentWillUnmount(){
-    console.log("component unmounted!");
-    clearInterval(this.waitTimeUpdateTimer);
-  }
-
-  updateTicketElapsedWaitTime = () => {
-    const { dispatch } = this.props;
-    Object.values(this.props.masterTicketList).forEach(ticket => {
-      const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
-      const action = a.updateTime(ticket.id, newFormattedWaitTime);
-      dispatch(action);
-    });
   }
 
   handleClick = () => {
@@ -50,6 +29,29 @@ class TicketControl extends React.Component {
       dispatch(action);
     }
   }
+  //timers
+  // componentDidMount() {
+  //   this.waitTimeUpdateTimer = setInterval(() =>
+  //     this.updateTicketElapsedWaitTime(),
+  //   6000
+  //   );
+  // }
+
+  // componentWillUnmount(){
+  //   console.log("component unmounted!");
+  //   clearInterval(this.waitTimeUpdateTimer);
+  // }
+
+  // updateTicketElapsedWaitTime = () => {
+  //   const { dispatch } = this.props;
+  //   Object.values(this.props.masterTicketList).forEach(ticket => {
+  //     const newFormattedWaitTime = ticket.timeOpen.fromNow(true);
+  //     const action = a.updateTime(ticket.id, newFormattedWaitTime);
+  //     dispatch(action);
+  //   });
+  // }
+
+ 
 
   // for adding new ticket
   handleAddingNewTicketToList = () => {
@@ -107,7 +109,7 @@ class TicketControl extends React.Component {
       ticket = {this.state.selectedTicket} 
       onClickingDelete = {this.handleDeletingTicket} 
       onClickingEdit = {this.handleEditClick} />
-    buttonText = "Return to Ticket List";
+      buttonText = "Return to Ticket List";
       // While our TicketDetail component only takes placeholder data, we will eventually be passing the value of selectedTicket as a prop.
     }
     else if(this.props.formVisibleOnPage) {
@@ -118,7 +120,6 @@ class TicketControl extends React.Component {
     } else {
       currentlyVisibleState = 
       <TicketList 
-      ticketList={this.props.masterTicketList}
       onTicketSelection={this.handleChangingSelectedTicket} />; 
       buttonText = "Add Ticket"; 
     }
@@ -130,13 +131,12 @@ class TicketControl extends React.Component {
     );
   }
 }
-TicketControl.propTypes = {
-  masterTicketList: PropTypes.object
-};
+// TicketControl.propTypes = {
+//   masterTicketList: PropTypes.object
+// };
 
 const mapStateToProps = state => {
   return {
-    masterTicketList: state.masterTicketList,
     formVisibleOnPage: state.formVisibleOnPage
   }
 }
