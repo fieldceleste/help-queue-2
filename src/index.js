@@ -9,7 +9,7 @@ import rootReducer from './reducers/index';
 import { ReactReduxFirebaseProvider } from 'react-redux-firebase';
 import { createFirestoreInstance } from 'redux-firestore';
 import firebase from "./firebase";
-import 'firebase/auth'
+import 'firebase/auth';
 
 
 const store = createStore(rootReducer);
@@ -18,7 +18,8 @@ const store = createStore(rootReducer);
 const rrfProps = {
   firebase,
   config: {
-        userProfile: "users"
+        userProfile: "users",
+        useFirestoreForProfile: true,
     },
   dispatch: store.dispatch,
   createFirestoreInstance
